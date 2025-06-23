@@ -1,7 +1,9 @@
-from pydantic import BaseModel
-from datetime import date
+from pydantic import BaseModel, Field
 from typing import List, Optional
+from datetime import date
 
+
+# --- Book schemas ---
 
 class BookBase(BaseModel):
     title: str
@@ -21,6 +23,8 @@ class Book(BookBase):
         orm_mode = True
 
 
+# --- Author schemas ---
+
 class AuthorBase(BaseModel):
     name: str
     bio: Optional[str] = None
@@ -32,7 +36,7 @@ class AuthorCreate(AuthorBase):
 
 class Author(AuthorBase):
     id: int
-    books: List[Book] = []
+    books: List[Book] = Field(default_factory=list)
 
     class Config:
         orm_mode = True
